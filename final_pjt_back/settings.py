@@ -20,7 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e#tebi5f^lzoh-jsf@jq38s-a#weu=%5rmxui$f7%#!yknz_oe'
+
+import my_settings
+SECRET_KEY = my_settings.SECRET_KEY
+DATABASES = my_settings.DATABASES
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,9 +60,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASS': [
         'rest_framework.permissions.AllowAny',
     ]
+    
 }
 
-AUTH_USER_MODEL = "accounts.User"
+
 
 
 REST_AUTH = {
@@ -101,13 +105,6 @@ WSGI_APPLICATION = 'final_pjt_back.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation

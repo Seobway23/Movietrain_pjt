@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,django,python,venv,vue,node,git,windows,cuda,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,django,python,venv,vue,node,git,windows,cuda,react
 
+###API key###
+my_settings.py
+
+
+
 ### CUDA ###
 *.i
 *.ii
