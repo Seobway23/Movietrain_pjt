@@ -56,15 +56,15 @@
 ## 오늘 한 것
 1. DB - ERD 설정
 https://dbdiagram.io/d/6464417ddca9fb07c43815f1
-![ERD](ERD.png)
+![ERD](img/ERD.png)
 
 
 2. 컨셉 확정 및 back-end 동작 Diagram
-![Back-flow](back_flow.PNG)
+![Back-flow](img/back_flow.PNG)
 
 3. mockup design
-![mockup1](mockup1.png)
-![mockup2](mockup2.png)
+![mockup1](img/mockup1.png)
+![mockup2](img/mockup2.png)
 
 
 

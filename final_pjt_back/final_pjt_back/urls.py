@@ -18,5 +18,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # accounts
     path('accounts/', include('dj_rest_auth.urls')),
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+
+    # movies
+    path('movies/', include('movies.urls')),
+
+    # community
+    path('community/', include('community.urls')),
 ]

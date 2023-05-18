@@ -20,10 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-import my_settings
-SECRET_KEY = my_settings.SECRET_KEY
-DATABASES = my_settings.DATABASES
+# import keyvalues
+SECRET_KEY = 'django-insecure-e#tebi5f^lzoh-jsf@jq38s-a#weu=%5rmxui$f7%#!yknz_oe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,13 +34,25 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # add App
     'accounts',
+    'movies',
+    'community',
 
     # rest_framework
     'rest_framework',
 
-    # auth_token
+    # Auth
     'rest_framework.authtoken',
     'dj_rest_auth',
+
+    # CORS policy
+    "corsheaders",
+
+    # registration
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -54,16 +64,16 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     #Authentication
-    'DEFAULT_AUTHENTICATION_CLASS':[
+    'DEFAULT_AUTHENTICATION_CLASSES':[
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASS': [
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ]
     
 }
-
-
 
 
 REST_AUTH = {
@@ -80,7 +90,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # corsheaders
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'final_pjt_back.urls'
 
@@ -105,6 +125,17 @@ WSGI_APPLICATION = 'final_pjt_back.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+
+
+AUTH_USER_MODEL = 'accounts.User'
 
 
 # Password validation
