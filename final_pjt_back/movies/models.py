@@ -1,32 +1,27 @@
 from django.db import models
-from django.conf import settings
+# from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
-class Movie(models.Model):
-    title = models.CharField(max_length=100)
-    overview = models.TextField()
-    poster_path = models.TextField()
-    release_data = models.DateField()
-    created_at = models.DateField()
-    vote_average = models.FloatField()
-    vote_count = models.IntegerField()
-
-
-class Comment(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.TextField()
-    score = models.FloatField()
 
 class Genre(models.Model):
-    genre_id = models.IntegerField()
-    genre = models.CharField(max_length=100)
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
 
-class MovieGenres(models.Model):
-    movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
-    genre = models.ForeignKey(Genre, on_delete = models.CASCADE)
+class Movie(models.Model):
+    id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=100)
+    poster_path=models.TextField()
+    overview=models.TextField()
+    release_date = models.DateTimeField()
+    vote_average = models.FloatField()
+    vote_count = models.IntegerField()
+    genres = models.ManyToManyField(Genre, related_name="movie_genres")
 
 
-class CustomRecommend(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+class Score(models.Model):
+    # user = models.IntegerField(settings.AUTH_USER_MODELS, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    # score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -1,36 +1,27 @@
 from rest_framework import serializers
-from .models import Article,Comment,reply
-
-
-class ArticleListSerializer(serializers.ModelSerializer):
-    #
+from .models import Post, Comment, Reply
+class PostListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
-        #fields = "__all__"
-        fields = ('id', 'title', 'content')
-        only_read_fields = ('users', 'like_users')
+        model = Post
+        fields = ('id','title','content')
+
+
+
+class PostDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('id','title','content')
+
+
 
 class CommentSerializer(serializers.ModelSerializer):
-    #
     class Meta:
         model = Comment
-        fields = "__all__"
-        # fields = ('원하는 필드')
+        fields = ('post', 'content', 'created_at')
 
-class ArticleDetailSerializer(serializers.ModelSerializer):
-    comment_set = CommentSerializer(many=True, read_only=True)
-    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
 
+class ReplySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Article
-        fields = "__all__"
-        # fields = ('원하는 필드')
-
-
-class replySerializer(serializers.ModelSerializer):
-    #
-    class Meta:
-        model = reply
-        fields = "__all__"
-        # fields = ('원하는 필드')
-
+        model = Reply
+        fields = ('post', 'comment', 'content', 'created_at')
+        

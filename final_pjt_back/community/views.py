@@ -1,91 +1,112 @@
+from django.shortcuts import render
+from .models import Post, Comment, Reply
+from .serializer import PostListSerializer, PostDetailSerializer, CommentSerializer, ReplySerializer
 from rest_framework.response import Response
+
+#http request
+from rest_framework import status  # 상태 알려주는 status
+from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework.decorators import api_view
-# Authentication Decorators
-# from rest_framework.decorators import authentication_classes
-
-# permission Decorators
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated
-
-from rest_framework import status
-from django.shortcuts import get_object_or_404, get_list_or_404
-from .serializer import ArticleListSerializer, ArticleDetailSerializer, CommentSerializer
-from .models import Article, Comment
 
 
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
-def article_list(request):
+# 리스트 불러오기, post 생성하기
+@api_view(['GET','POST'])
+def post_list(request):
     if request.method == 'GET':
-        # articles = Article.objects.all()
-        articles = get_list_or_404(Article)
-        serializer = ArticleListSerializer(articles, many=True)
+        post_list = Post.objects.all()
+        serializer = PostListSerializer(post_list, many =True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ArticleDetailSerializer(data=request.data)
+        serializer = PostDetailSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            print('serializer:', serializer)
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-# @api_view(['GET', 'DELETE', 'PUT'])
-# def article_detail(request, article_pk):
-#     # article = Article.objects.get(pk=article_pk)
-#     article = get_object_or_404(Article, pk=article_pk)
-
-#     if request.method == 'GET':
-#         serializer = ArticleDetailSerializer(article)
-#         print(serializer.data)
-#         return Response(serializer.data)
+        
+# Post Detail
+@api_view(['GET','DELETE', 'PUT'])
+def post_detail(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    if request.method == 'GET':
+        serializer = PostDetailSerializer(post)
+        return Response(serializer.data)
     
-#     elif request.method == 'DELETE':
-#         article.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    elif request.method =='DELETE':
+        post.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
-#     elif request.method == 'PUT':
-#         serializer = ArticleDetailSerializer(article, data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = PostDetailSerializer(post, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        
 
-
-# @api_view(['GET'])
-# def comment_list(request):
-#     if request.method == 'GET':
-#         # comments = Comment.objects.all()
-#         comments = get_list_or_404(Comment)
-#         serializer = CommentSerializer(comments, many=True)
-#         return Response(serializer.data)
-
-
-# @api_view(['GET', 'DELETE', 'PUT'])
-# def comment_detail(request, comment_pk):
-#     # comment = Comment.objects.get(pk=comment_pk)
-#     comment = get_object_or_404(Comment, pk=comment_pk)
-
-#     if request.method == 'GET':
-#         serializer = CommentSerializer(comment)
-#         return Response(serializer.data)
-
-#     elif request.method == 'DELETE':
-#         comment.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-#     elif request.method == 'PUT':
-#         serializer = CommentSerializer(comment, data=request.data)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
-
+# Comment
+@api_view(['GET'])
+def comment_list(request):
+    if request.method == 'GET':
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
     
 
+@api_view(['GET','DELETE', 'PUT'])
+def comment_detail(request, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        comment.delete()
 
-# @api_view(['POST'])
-# def comment_create(request, article_pk):
-#     # article = Article.objects.get(pk=article_pk)
-#     article = get_object_or_404(Article, pk=article_pk)
-#     serializer = CommentSerializer(data=request.data)
-#     if serializer.is_valid(raise_exception=True):
-#         serializer.save(article=article)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+    
+
+@api_view(['POST'])
+def comment_create(request, post_pk):
+    post = Post.objects.get(pk=post_pk)
+    serializer = CommentSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(post=post)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+
+@api_view(['GET'])
+def reply_list(request):
+    if request.method == 'GET':
+        reply = Reply.objects.all()
+        serializer = CommentSerializer(reply, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET','DELETE', 'PUT'])
+def reply_detail(request, reply_pk):
+    reply = get_object_or_404(Reply, pk=reply_pk)
+    if request.method == 'GET':
+        serializer = CommentSerializer(reply)
+        return Response(serializer.data)
+    
+    elif request.method == 'DELETE':
+        reply.delete()
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(reply, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+@api_view(['POST'])
+def reply_create(request, post_pk, comment_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    serializer = ReplySerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(post=post, comment=comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,36 +1,34 @@
 from rest_framework import serializers
-from .models import Movie, Comment, Genre, MovieGenres, CustomRecommend
-
+from .models import Movie, Genre, Score
 
 class MovieListSerializer(serializers.ModelSerializer):
-    #
     class Meta:
         model = Movie
-        fields = "__all__"
-
-
-class commentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
+        # exclude = ['id', ]
         fields = '__all__'
-        # read_only_fields는 읽기 전용 -> 업데이트 프로세스 포함시키지 않는 필드
-        read_only_fields = ('movie_id', 'user_id')
+
+class MovieDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Movie
+        fields = '__all__'
 
 
-class genreSerializer(serializers.ModelSerializer):
+class GenreListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = '__all__'
+        fields='__all__'
 
-
-class movieGenresSerializer(serializers.ModelSerializer):
+class MovieScoreSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MovieGenres
-        fields = '__all__'
+        model = Score
+        fields='__all__'
 
 
-class CustomRecommendSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomRecommend
-        fields = '__all__'
+    # def create(self, validated_data):
+    #     # Get the star rating from the validated_data
+    #     star_rating = validated_data.pop('star_rating', None)
 
+    #     # Create a new Score instance with the star rating
+    #     score = Score.objects.create(star_rating=star_rating, **validated_data)
+
+    #     return score
