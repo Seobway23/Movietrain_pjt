@@ -1,4 +1,4 @@
-# Day1(0517) _YMY
+# [Movietrain] Day1_Frontend_YMY (0517)
 
 ## 오늘의 할일 
 
@@ -20,15 +20,17 @@
   - Backend , 기획
   - Frontend, Design 
 - 컴포넌트 구성 제작 (60%)
-![component](compo_.png)
+![component](img/compo_.png)
 - 디자인 레퍼런스 수집
 - 디자인 레이아웃 제작(20%)
   - main page 컬러/이미지 시안 후보 
-  ![main_all](main_all.png)
+  ![main_all](img/main_all.png)
     - 최종 후보 
-    ![main_1](main_1.png)
-    ![main_2](main_2.png)
-    ![main_3](main_3.png)
+  
+      ![main_1](img/main_1.png)
+      ![main_2](img/main_2.png)
+      ![main_3](img/main_3.png)
   - Profile page 대표 시안
-  ![profile_1](profile_1.png)
+  
+    ![profile_1](img/profile_1.png)
 
