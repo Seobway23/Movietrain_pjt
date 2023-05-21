@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+
 import axios from 'axios'
-import createPersistedState from "vuex-persistedstate"
-import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+import router from '../router'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -17,7 +18,7 @@ export default new Vuex.Store({
     token: null,
 
     // 게시글
-    articles: [],
+    posts: [],
   },
   getters: {
     isLogin(state){
@@ -25,13 +26,18 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    SAVE_TOKEN(state, token){
+    // 토큰 방식 로그인 
+    SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name: 'ArticleView'})
-    }
+      router.push({name : 'ArticleView'}) // store/index.js $router 접근 불가 -> import를 해야함
+    },
+
+    // community post 
+    GET_POSTS(state, posts) {
+      state.posts = posts
+    },
   },
   actions: {
-
     // 회원 가입 구현
     signUp(context, payload) {
       const username = payload.username
@@ -39,20 +45,22 @@ export default new Vuex.Store({
       const password2 = payload.password2
 
       axios({
-        method:'post',
+        method: 'post',
         url: `${API_URL}/accounts/signup/`,
         data: {
           username, password1, password2
         }
       })
-      .then((res)=> {
-        console.log(res)
-        context.commit('SAVE_TOKEN', res.data.key)
+        .then((res) => {
+          // console.log(res)
+          // context.commit('SIGN_UP', res.data.key)
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+        console.log(err)
       })
-      // 400 bad_request가 나오면, 다시 입력하라는 문구를 보여줘야 함
-      .catch((err) => {
-        console.log(err)})
     },
+
     // 로그인 구현
     login(context, payload){
       const username = payload.username
@@ -69,6 +77,18 @@ export default new Vuex.Store({
         context.commit("SAVE_TOKEN", res.data.key)
       })
       .catch((err)=> console.log(err))
+    },
+    
+    // post 구현
+    getPosts(context){
+      axios({
+        method: 'get',
+        url: `${API_URL}/community/`,
+        })
+        .then((res)=>
+          context.commit('GET_POSTS', res.data)
+        )
+        .catch((err)=> console.log(err))
     }
   },
   modules: {

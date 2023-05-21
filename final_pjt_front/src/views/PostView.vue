@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Communit Page</h1>
+    <h1>Community Page</h1>
     <router-link :to="{ name: 'CreateView' }">[CREATE]</router-link>
     <ArticleList />
     <hr>
@@ -11,7 +11,7 @@
 import ArticleList from '@/components/ArticleList.vue'
 
 export default {
-  name: 'ArticleView',
+  name: 'PostView',
   components: {
     ArticleList,
   },
@@ -21,12 +21,12 @@ export default {
     }
   },
   created() {
-    this.getArticles()
+    this.getPosts()
   },
   methods: {
-    getArticles() {
+    getPosts() {
       if (this.isLogin) {
-        this.$store.dispatch('getArticles')
+        this.$store.dispatch('getPosts')
       } else {
         alert('로그인이 필요한 페이지입니다...')
         this.$router.push({ name: 'LogInView' })

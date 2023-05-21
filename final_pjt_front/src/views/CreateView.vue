@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>게시글 작성</h1>
-    <form @submit.prevent="createArticle">
+    <form @submit.prevent="createPost">
       <label for="title"> 제목 : </label>
       <input type="text" id="title" v-model.trim="title"><br>
       <label for="content"> 내용 :</label>
@@ -25,7 +25,7 @@ export default {
     }
   },
   methods: {
-    createArticle(){
+    createPost(){
       const title= this.title
       const content = this.content
 
@@ -41,8 +41,9 @@ export default {
         url: `${API_URL}/community/`,
         data: {title, content},
       })
-      .then(() =>{
-        this.$router.push({name:'ArticleView'})
+      .then((res) =>{ 
+        console.log(res)
+        this.$router.push({name:'PostView'})
       })
       .catch((err)=>{
         console.log(err)

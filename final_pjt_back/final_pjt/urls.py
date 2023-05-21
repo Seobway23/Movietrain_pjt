@@ -15,12 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('accounts/', include('dj_rest_auth.urls')),
-    path("accounts/", include("allauth.urls")),
-    path('accounts/registration/', include('dj_rest_auth.registration.urls')),
+
+    #회원가입 
+    path('accounts/', include('dj_rest_auth.urls')),
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    
+    # 소셜 인증 로그인 
+    #path("accounts/", include("allauth.urls")),
+
+    #커뮤니티
     path('community/', include('community.urls')),
+    
+    # 영화
     path('movies/', include('movies.urls')),
 ]
