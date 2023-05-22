@@ -6,14 +6,14 @@ import SignUpView from '../views/SignUpView.vue'
 import LoginView from '../views/LoginView.vue'
 import CreateView from '../views/CreateView.vue'
 import DetailView from '../views/DetailView.vue'
-
+import ProfileView from '../views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '',
+    name: 'HomeView',
     component: HomeView
   },
   {
@@ -40,6 +40,11 @@ const routes = [
     path: '/post/detail',
     name: 'DetailView',
     component: DetailView
+  },
+  {
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView
   },
   // {
   //   path: '/article',

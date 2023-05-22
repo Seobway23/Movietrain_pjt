@@ -17,8 +17,14 @@ export default new Vuex.Store({
     // 로그인
     token: null,
 
+    // username
+    username : null,
+
     // 게시글
     posts: [],
+
+    // movies
+    movies: [],
   },
   getters: {
     isLogin(state){
@@ -29,12 +35,16 @@ export default new Vuex.Store({
     // 토큰 방식 로그인 
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({name : 'ArticleView'}) // store/index.js $router 접근 불가 -> import를 해야함
+      router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
     },
 
     // community post 
     GET_POSTS(state, posts) {
       state.posts = posts
+    },
+
+    GET_MOVIES(state, movies) {
+      state.movies = movies
     },
   },
   actions: {
@@ -74,12 +84,13 @@ export default new Vuex.Store({
         }
       })
       .then((res)=> {
+        console.log(res.data)
         context.commit("SAVE_TOKEN", res.data.key)
       })
       .catch((err)=> console.log(err))
     },
     
-    // post 구현
+    // posts 구현
     getPosts(context){
       axios({
         method: 'get',
@@ -89,7 +100,19 @@ export default new Vuex.Store({
           context.commit('GET_POSTS', res.data)
         )
         .catch((err)=> console.log(err))
+    },
+
+    // movies 구현
+    getMovies(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/movies/`,
+      })
+      .then((res)=>
+      context.commit('GET_MOVIES', res.data))
+      .catch((err)=> console.log(err))
     }
+
   },
   modules: {
   }

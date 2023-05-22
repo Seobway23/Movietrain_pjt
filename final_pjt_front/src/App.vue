@@ -2,15 +2,16 @@
   <div id="app">
     <nav>
       <ul>
-        <li></li>
+        <li><router-link :to="{name: 'HomeView'}">Movies</router-link></li>| 
         <li>
-          <router-link :to="{name: 'PostView'}">Community</router-link>
+          <router-link :to="{name: 'PostView'}">Community</router-link>|
           <!-- <router-link to="/Post">Community</router-link>  -->
           </li>
         <li>
         <!-- <li v-if="isloggedIn"> -->
           <router-link :to="{ name: 'SignUpView' }">SignUp</router-link> | 
-          <router-link :to="{ name: 'LoginView' }">Login</router-link>
+          <router-link :to="{ name: 'LoginView' }">Login</router-link> |
+          <router-link :to="{ name: 'ProfileView' }">Profile</router-link> |
         </li>
         <li>
         <!-- <li v-else> -->

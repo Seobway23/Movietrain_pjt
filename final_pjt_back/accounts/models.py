@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 # from .managers import UserManager
 
 class User(AbstractUser):
-    pass 
+    image = models.ImageField(upload_to='user_images', default=False)
     # #username = None
     # # username = models.CharField(max_length=32, unique=True) 
     # email = models.EmailField(_('email address'), unique=True)

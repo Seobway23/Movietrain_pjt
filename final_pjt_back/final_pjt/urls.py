@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+# from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 
@@ -23,9 +26,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #회원가입 
+    path('user/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
-    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
-    
+
+    #path('accounts/', include('dj_rest_auth.urls')),
     # 소셜 인증 로그인 
     #path("accounts/", include("allauth.urls")),
 
@@ -34,4 +38,4 @@ urlpatterns = [
     
     # 영화
     path('movies/', include('movies.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
