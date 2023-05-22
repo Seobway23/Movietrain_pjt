@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #회원가입 
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
     path('user/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
 

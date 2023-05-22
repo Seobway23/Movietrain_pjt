@@ -18,7 +18,7 @@ export default new Vuex.Store({
     token: null,
 
     // username
-    username : null,
+    userId : null,
 
     // 게시글
     posts: [],
@@ -37,6 +37,13 @@ export default new Vuex.Store({
       state.token = token
       router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
     },
+    
+    SAVE_OTHERS(state, { token, userId }) {
+      state.token = token
+      state.userId = userId
+      router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
+    },
+
 
     // community post 
     GET_POSTS(state, posts) {
@@ -80,13 +87,31 @@ export default new Vuex.Store({
         method: 'post',
         url: `${API_URL}/accounts/login/`,
         data: {
-          username, password
+          username, 
+          password
         }
       })
       .then((res)=> {
-        console.log(res.data)
-        context.commit("SAVE_TOKEN", res.data.key)
+        const token = res.data.key
+        console.log(token)
+        axios({
+          method: 'get',
+          url: `${API_URL}/user/userid/`,  // URL to retrieve user ID based on token (customize as needed)
+          headers: {
+            Authorization: `Token ${token}`
+          }
+        })
+          .then((response) => {
+            const userId = response.data.userId
+            context.commit("SAVE_OTHERS", { token, userId })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       })
+      // .then((res)=> {
+      //   context.commit("SAVE_TOKEN", res.data.key)
+      // })
       .catch((err)=> console.log(err))
     },
     
