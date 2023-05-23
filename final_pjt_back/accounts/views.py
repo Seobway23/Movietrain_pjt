@@ -22,30 +22,45 @@ from django.http import JsonResponse
 #         return Response(serializer.data)
     
 
-@api_view(['GET','DELETE', 'PUT'])
-def user_profile(request, username):
-    username = User.objects.get(request.user)
+@api_view(['GET'])
+def user_profile(request):
+    username = User.objects.get(username=request.user.username)
     if request.method =='GET':
         serializer  = UserProfileSerializer(username)
         return Response(serializer.data)
 
-    if request.method =='DELETE':
-        username.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # if request.method =='DELETE':
+    #     username.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
-    if request.method == 'PUT':
-        serializer = UserDetailSerializer(username, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data)
+    # if request.method == 'PUT':
+    #     serializer = UserDetailSerializer(username, data=request.data)
+    #     if serializer.is_valid(raise_exception=True):
+    #         serializer.save()
+    #         return Response(serializer.data)
 
 
 @api_view(['GET'])
-@login_required 
-def get_user_id(request):
-    print(request.data)
-    # if request.user.is_authenticated:
-    user_id = request.user.id
-    return JsonResponse({'userId':user_id})
-    # else:
-    #     return Response(status=401, data={'message': 'User is not authenticated'})
+def get_user_profile(request, username):
+    username = User.objects.get(username=username)
+    if request.method =='GET':
+        serializer  = UserProfileSerializer(username)
+        return Response(serializer.data)
+
+# request.user => user의 instance를 말하는거고요
+#     로그인을 했을 때 => db안의 사람
+#     로그인ㅇ르안했을때 => anonymous user를 말함. => user 입장에서의 null
+# request.user.username => 사람의 이름
+
+# vue
+# axios( url, headers = {token }) => 토큰을 가지고 로그인을 하게 되면
+# url => view로 통과 middleware
+
+# user가 검색을 
+
+# vue는 request를 보내고 response를 받고
+#     request에다가 paramse, query라는 녀석을 사용해서 dajgno에 추가적인 데이터를 넘겨줄 수 있죠
+#     movies/?key=value&key=value => django에서 key-value 사용 가능
+#     profile/:username => django에서 username을 변수로 사용 가능
+
+# django는 request를 받아다가 response를 보내죠

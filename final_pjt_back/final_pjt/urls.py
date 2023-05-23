@@ -20,6 +20,30 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
+# # github login
+# from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+# from dj_rest_auth.registration.views import SocialLoginView
+
+# class GitHubLogin(SocialLoginView):
+#     adapter_class = GitHubOAuth2Adapter
+#     callback_url = "http://127.0.0.1:8000/movies"
+#     client_class = OAuth2Client
+
+
+# # google
+# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+# from dj_rest_auth.registration.views import SocialLoginView
+
+# class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Grant, use this
+#     adapter_class = GoogleOAuth2Adapter
+#     callback_url = "http://127.0.0.1:8000/movies"
+#     client_class = OAuth2Client
+
+# class GoogleLogin(SocialLoginView): # if you want to use Implicit Grant, use this
+#     adapter_class = GoogleOAuth2Adapter
+
 
 
 urlpatterns = [
@@ -33,6 +57,10 @@ urlpatterns = [
     #path('accounts/', include('dj_rest_auth.urls')),
     # 소셜 인증 로그인 
     #path("accounts/", include("allauth.urls")),
+    #  path('dj-rest-auth/github/', GitHubLogin.as_view(), name='github_login'),
+
+
+
 
     #커뮤니티
     path('community/', include('community.urls')),
@@ -40,3 +68,7 @@ urlpatterns = [
     # 영화
     path('movies/', include('movies.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += [
+#     path('dj-rest-auth/google/', GoogleLogin.as_view(), name='google_login')
+# ]

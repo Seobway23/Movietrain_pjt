@@ -7,6 +7,8 @@ import LoginView from '../views/LoginView.vue'
 import CreateView from '../views/CreateView.vue'
 import DetailView from '../views/DetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import SearchView from '../views/SearchView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -45,6 +47,11 @@ const routes = [
     path: '/profile',
     name: 'ProfileView',
     component: ProfileView
+  },
+  {
+    path: '/search',
+    name: 'SearchView',
+    component: SearchView
   },
   // {
   //   path: '/article',

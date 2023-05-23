@@ -1,53 +1,49 @@
 <template>
   <div>
     <h1> PROFILE PAGE</h1>
-    <p>username: {{username}}</p>
-    <p>image: {{image}}</p>
-    <p>email: {{email}}</p>
-    <p>last_name: {{last_name}}</p>
-    <p>first_name: {{first_name}}</p>
-
+    <p>username: {{profile?.username}}</p>
+    <p>image: {{profile?.image}}</p>
+    <p>email: {{profile?.email}}</p>
+    <p>last_name: {{profile?.last_name}}</p>
+    <p>first_name: {{profile?.first_name}}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 const API_URL = 'http://127.0.0.1:8000'
+import axios from 'axios'
 
 export default {
     name: 'ProfileItem',
-    created() {
-        this.getProfile()
+    created(){
+      this.getProfile()
     },
     data(){
         return{
-            username: null,
-            image: null,
-            email: null,
-            last_name: null,
-            first_name: null,
+            profile: null
         }
     },
-    methods: {
-        getProfile() {
-          // const username = res.data.username
-
-            axios({
-                method: 'get',
-                url: `${API_URL}/user/1/`,
-                // 이걸 어떻게 알지?
-            })
-            .then((res) =>{
-                this.username = res.data.username
-                this.image = res.data.image
-                this.email = res.data.email
-                this.last_name = res.data.last_name
-                this.first_name = res.data.first_name
-
-            })
-            .catch((err) => console.log(err))
-        }
+    computed: {
+      isLogin() {
+      return this.$store.getters.isLogin //로그인 여부
     }
+    },
+    methods:{
+      getProfile(){
+        const username = localStorage.getItem('username')
+      console.log(username)
+      axios({
+        method: 'get',
+        url: `${API_URL}/user/profile/${username}`,
+      })
+      .then((res)=>{
+        console.log(res)
+        this.profile = res.data
+      })
+      .catch((err) => console.log(err))
+      }
+    },
+
 }
 </script>
 

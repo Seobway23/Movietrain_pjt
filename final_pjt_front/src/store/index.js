@@ -18,13 +18,18 @@ export default new Vuex.Store({
     token: null,
 
     // username
-    userId : null,
+    username : null,
 
     // 게시글
     posts: [],
 
     // movies
     movies: [],
+
+    // searched movies
+    title : null,
+
+    searchmovies: [],
   },
   getters: {
     isLogin(state){
@@ -38,12 +43,16 @@ export default new Vuex.Store({
       router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
     },
     
-    SAVE_OTHERS(state, { token, userId }) {
+    SAVE_OTHERS(state, { token, username }) {
       state.token = token
-      state.userId = userId
+      state.username = username
+      localStorage.setItem('username', username)
       router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
     },
-
+    GET_PROFILES(state){
+      console.log('state:',state)
+      // 스테이트닷뭐시기 하기
+    },
 
     // community post 
     GET_POSTS(state, posts) {
@@ -53,6 +62,14 @@ export default new Vuex.Store({
     GET_MOVIES(state, movies) {
       state.movies = movies
     },
+
+    // TMDB search데이터 수집
+    GET_SEARCH(state, searchmovies){
+      state.searchmovies = []
+      state.searchmovies = searchmovies
+      // router.push({name : 'SearchView'}) -> 오류
+    },
+
   },
   actions: {
     // 회원 가입 구현
@@ -102,8 +119,9 @@ export default new Vuex.Store({
           }
         })
           .then((response) => {
-            const userId = response.data.userId
-            context.commit("SAVE_OTHERS", { token, userId })
+            console.log('response:', response)
+            const username = response.data.username
+            context.commit("SAVE_OTHERS", { token, username })
           })
           .catch((error) => {
             console.log(error)
@@ -136,7 +154,64 @@ export default new Vuex.Store({
       .then((res)=>
       context.commit('GET_MOVIES', res.data))
       .catch((err)=> console.log(err))
-    }
+    },
+
+    // 프로필 구현
+    getProfile(context){
+      const username = localStorage.getItem('username')
+      console.log(username)
+      axios({
+        method: 'get',
+        url: `${API_URL}/user/profile/${username}`,
+      })
+      .then((res)=>{
+        console.log('res:',res)
+        console.log('context:',context)
+      })
+      .catch((err) => console.log(err))
+    },
+
+    // movie search context
+    searchMovie(context){
+      // store에서는 $표시 X
+
+      // KOFIS 영화 검색 -> POSTER X
+      // console.log(this.state.title)
+      // const TITLE = `${this.state.title}`
+      // const SEARCH_URL = "https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=f5eef3421c602c6cb7ea224104795888&movieNm="
+      // const FULL_REQUEST = SEARCH_URL + TITLE
+      // console.log(FULL_REQUEST)
+
+      // TMDB 검색
+      const URL = 'https://api.themoviedb.org/3/search/movie'
+      const query = `${this.state.title}`
+      const includeAdult = false
+      const language = 'ko-KR'
+
+      const headers = {
+        Authorization : 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZmJmNTMzY2FlODMwYmUzNzIwN2MxNGE1ZGU1MjVmNyIsInN1YiI6IjYzZDIwM2M4ZTcyZmU4MDA4ZTYxMTAwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.krANda0Rl0-V-oSH7YOOWJzF9WaJmj3uZfDNhOdbakM',
+        accept: 'application/json'
+      }
+
+      const params = {
+        query,
+        include_adult : includeAdult,
+        language,
+      }
+
+      axios.get(URL, {params, headers})
+      .then((res) =>
+        // console.log(res.data.results),
+        context.commit('GET_SEARCH', res.data.results)
+        
+      )
+      .catch((error) => {
+        // Handle the error
+        console.error(error)
+      })
+    },
+
+
 
   },
   modules: {

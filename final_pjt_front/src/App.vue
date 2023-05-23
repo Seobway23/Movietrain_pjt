@@ -6,7 +6,20 @@
         <li>
           <router-link :to="{name: 'PostView'}">Community</router-link>|
           <!-- <router-link to="/Post">Community</router-link>  -->
-          </li>
+        </li>
+
+        <li>
+          <button @click="logout">Logout</button>
+        </li>
+
+
+        <li>
+          <form @submit.prevent="searchMovie">
+            <input type="text" id="title" v-model.trim="title">
+          </form>
+        </li>
+
+
         <li>
         <!-- <li v-if="isloggedIn"> -->
           <router-link :to="{ name: 'SignUpView' }">SignUp</router-link> | 
@@ -30,14 +43,30 @@
 
 
 <script>
+
 export default {
   data() {
     return {
       isLoggedIn : false, 
+      title : null,
     }
   },
   mounted() {
     this.isLoggedIn = true
+  },
+  methods:{
+    searchMovie(){
+      this.$store.state.title = this.title
+      console.log(this.$store.state.title)
+      this.$store.dispatch('searchMovie')
+    },
+
+    logout() {
+      this.isLoggedIn = false
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      this.$router.push('movies/')
+    },
   }
 }
 </script>
