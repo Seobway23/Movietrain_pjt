@@ -24,6 +24,7 @@ from django.http import JsonResponse
     
 
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def user_profile(request):
     username = User.objects.get(username=request.user.
     username)

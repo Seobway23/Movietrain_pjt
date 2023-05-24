@@ -8,7 +8,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     followers = serializers.StringRelatedField(many=True)
     followings = serializers.StringRelatedField(many=True)
     like_posts = PostListSerializer(many=True)
-
     post_set = serializers.SerializerMethodField()
 
     def get_post_set(self, user):

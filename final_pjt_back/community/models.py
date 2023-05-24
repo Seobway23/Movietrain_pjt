@@ -4,12 +4,12 @@ from accounts.models import User
 
 # Create your models here.
 class Post(models.Model):
-    user = models.IntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    like_users = models.ManyToManyField(User, related_name = "like_posts",default=False)
+    like_users = models.ManyToManyField(User, related_name = "like_posts")
 
     # def __init__(self, *args, **kwargs):
     #     user = kwargs.pop('user', None)  # Remove 'user' from kwargs and assign it to 'user' variable
