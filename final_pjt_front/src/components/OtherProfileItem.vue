@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1> PROFILE PAGE</h1>
+
     <p>profile data: {{profile}}</p>
     <p>username: {{profile.username}}</p>
     <p>followers: {{followers}}</p>
@@ -33,7 +34,7 @@ export default {
             posts : null,
             post_likes : null,
             // follow: null,
-            follower_flag : null,
+            follower_flag : 0,
         }
     },
     created(){
@@ -66,6 +67,17 @@ export default {
 
       follow() {
         const username = localStorage.getItem('username')
+        const yourname = this.$route.params.id
+        
+
+        axios({
+          methods: 'post',
+          url: `${API_URL}/user/profile/${username}/${yourname}`,
+        })
+        .then((res)=>{
+          console.log(res)
+          // this.follower_flag = res.data.flag
+        })
         console.log(username)
         // yourname은 어떻게 할꺼?
       }

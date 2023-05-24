@@ -25,8 +25,13 @@ def post_list(request):
 
     elif request.method == 'POST':
         serializer = PostDetailSerializer(data=request.data)
+        print('#################')
+        print(request.user)
+        print(request.data)
+        print('#################')
+        
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

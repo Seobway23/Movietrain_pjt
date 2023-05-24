@@ -2,6 +2,7 @@
   <div>
     <p>{{movie.id}}</p>
     <p>{{movie.title}}</p>
+    
     <hr>
   </div>
 </template>
@@ -12,15 +13,6 @@ export default {
   props: {
     movie: Object,
   },
-  created: {
-    actionsss(){}
-  },
-  methods:{
-    actionsss(){
-    console.log(this.movie)
-    }
-  }
-
 }
 </script>
 

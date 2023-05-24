@@ -28,6 +28,7 @@ export default {
     createPost(){
       const title= this.title
       const content = this.content
+      const user = this.$store.state.id
 
       if (!title) {
         alert('제목을 입력해주세요')
@@ -39,7 +40,7 @@ export default {
       axios({
         method: 'post',
         url: `${API_URL}/community/`,
-        data: {title, content},
+        data: {user, title, content},
       })
       .then((res) =>{ 
         console.log(res)
