@@ -3,6 +3,11 @@ from .models import Post, Comment, Reply
 from .serializer import PostListSerializer, PostDetailSerializer, CommentSerializer, ReplySerializer
 from rest_framework.response import Response
 
+# 인증 기능 추가
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+
 #http request
 from rest_framework import status  # 상태 알려주는 status
 from django.shortcuts import get_list_or_404, get_object_or_404
@@ -11,6 +16,7 @@ from rest_framework.decorators import api_view
 
 # 리스트 불러오기, post 생성하기
 @api_view(['GET','POST'])
+# @permission_classes([IsAuthenticated])
 def post_list(request):
     if request.method == 'GET':
         post_list = Post.objects.all()
@@ -22,9 +28,11 @@ def post_list(request):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
+
 # Post Detail
 @api_view(['GET','DELETE', 'PUT'])
+# @permission_classes([IsAuthenticated])
 def post_detail(request, post_pk):
     post = Post.objects.get(pk=post_pk)
     if request.method == 'GET':

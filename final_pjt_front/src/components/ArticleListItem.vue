@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h5>{{ article.id }}</h5>
-    <p>{{ article.title }}</p>
+    <h5>{{ post.id }}</h5>
+    <p>{{ post.title }}</p>
     <router-link :to="{
       name: 'DetailView',
-      params: {id: article.id }}">
+      params: {id: post.id }}">
       [DETAIL]
     </router-link>
     <hr>
@@ -15,7 +15,7 @@
 export default {
   name: 'ArticleListItem',
   props: {
-    article: Object,
+    post: Object,
   }
 }
 </script>

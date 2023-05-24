@@ -18,7 +18,6 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
 with open(secret_file) as f:
@@ -50,15 +49,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #django apps
     'community',
     'movies',
     'accounts',
 
     'rest_framework',
 
+    # # CORS policy
+    "corsheaders",
+
     # auth
     'rest_framework.authtoken',
     'dj_rest_auth',
+    # 'rest_framework_simplejwt',
+    
 
     #  표준 등록 프로세스
     'django.contrib.sites',
@@ -85,17 +90,77 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
 ]
 
+# CORS 특정 origin 허용 
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+]
+
+
+
+# REST_AUTH 필요
+REST_AUTH = { # 회원가입시 토큰 발급
+    'SESSION_LOGIN': False,
+}
+
+#REST_FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
+
+}
+
+
+
+# AUTH
+AUTH_USER_MODEL = 'accounts.User'
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'  # 로그인시 username 이 아니라 email을 사용하게 하는 설정
+# ACCOUNT_EMAIL_REQUIRED = True  # 회원가입시 필수 이메일을 필수항목으로 만들기
+# ACCOUNT_USERNAME_REQUIRED = False  # USERNAME 을 필수항목에서 제거
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_EMAIL_VERIFICATION = 'none' # 이메일 인증 X
+
+# # JWTs
+# REST_USE_JWT = True
+# JWT_AUTH_COOKIE = 'my-app-auth'
+# JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+
 SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    
+    # 미들웨어 추가를 안해줬기 때문에 오류 생겼음,
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:8080',
+# ]
+
+# CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+
 
 ROOT_URLCONF = 'final_pjt.urls'
 
@@ -162,7 +227,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -180,3 +245,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

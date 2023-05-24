@@ -26,7 +26,6 @@ export default {
     login() {
       const username = this.username
       const password = this.password
-
       const payload = {
         username, password
       }
@@ -34,7 +33,7 @@ export default {
       this.$store.dispatch('login', payload)
 
     }
-  }
+  },
 }
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <div class="article-list">
-    <h3>Article List</h3>
+    <h3>Post List</h3>
     <ArticleListItem 
-    v-for="article in articles" :key="article.id" :article="article"
+    v-for="post in posts" :key="post.id" :post="post"
     />
   </div>
 </template>
@@ -16,8 +16,8 @@ export default {
     ArticleListItem,
   },
   computed: {
-    articles() {
-      return this.$store.state.articles
+    posts() {
+      return this.$store.state.posts
     }
   }
 }

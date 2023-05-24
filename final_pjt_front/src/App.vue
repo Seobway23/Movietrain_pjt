@@ -1,14 +1,75 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/article">Community</router-link> | 
-      <router-link :to="{ name: 'SignUpView' }">SignUp</router-link> | 
-      <router-link :to="{ name: 'LoginView' }">Login</router-link>
+      <ul>
+        <li><router-link :to="{name: 'HomeView'}">Movies</router-link></li>| 
+        <li>
+          <router-link :to="{name: 'PostView'}">Community</router-link>|
+          <!-- <router-link to="/Post">Community</router-link>  -->
+        </li>
+
+        <li>
+          <button @click="logout">Logout</button>
+        </li>
+
+
+        <li>
+          <form @submit.prevent="searchMovie">
+            <input type="text" id="title" v-model.trim="title">
+          </form>
+        </li>
+
+
+        <li>
+        <!-- <li v-if="isloggedIn"> -->
+          <router-link :to="{ name: 'SignUpView' }">SignUp</router-link> | 
+          <router-link :to="{ name: 'LoginView' }">Login</router-link> |
+          <router-link :to="{ name: 'ProfileView' }">Profile</router-link> |
+        </li>
+        <li>
+        <!-- <li v-else> -->
+          <!-- 로그아웃 누르면 메인으로 가게끔, 라우터링크가 아니라, 함수로 써야함
+          함수를 써서, 로그아웃처리하면서, 메인 페이지로 이동하게끔-->
+          <!-- postview 이용해서 -> 라우터링크로하지말고, 변수로 할당할 수 있도록 하기 -->
+          <!-- <router-link>logout</router-link> |  -->
+          <!-- 프로필을 누르면 프로필 화면으로 가게끔 -->
+          <!-- <router-link>profile</router-link> |  -->
+        </li>
+      </ul>
     </nav>
     <router-view/>
   </div>
 </template>
+
+
+<script>
+
+export default {
+  data() {
+    return {
+      isLoggedIn : false, 
+      title : null,
+    }
+  },
+  mounted() {
+    this.isLoggedIn = true
+  },
+  methods:{
+    searchMovie(){
+      this.$store.state.title = this.title
+      console.log(this.$store.state.title)
+      this.$store.dispatch('searchMovie')
+    },
+
+    logout() {
+      this.isLoggedIn = false
+      localStorage.removeItem('token')
+      localStorage.removeItem('username')
+      this.$router.push('movies/')
+    },
+  }
+}
+</script>
 
 <style>
 #app {

@@ -11,8 +11,9 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 @api_view(['GET'])
 def movie_list(request):
     if request.method == 'GET':
-        movies = Movie.objects.all()
-        serializer = MovieListSerializer(movies, many=True)
+        movie = Movie.objects.all()
+        movies = movie.order_by('-vote_count')
+        serializer = MovieListSerializer(movies[:24], many=True)
         return Response(serializer.data)
 
 
@@ -58,3 +59,14 @@ def score_list(request):
     scores = get_list_or_404(Score)
     serializer = MovieScoreSerializer(scores, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def search(request, title):
+    if request.method =='GET':
+        print(title)
+        print(request)
+        search = Movie.objects.filter(title__contains=title)
+        print(search)
+        serializer = MovieListSerializer(search, many=True)
+        return Response(serializer.data)
