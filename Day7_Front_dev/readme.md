@@ -16,6 +16,11 @@
            - 작성 글 목록 카드형태로 구현
   
      2. 라우팅 - ArticleList의 글제목 입력시 ArticleDetailView로 이동(/:id)  
+     3. Login Modal 구현 - trigger 관련 issue`
+         - store(action) > component로 error 넘기기
+         - Promise, resolve, reject
+         - store(axios action)의 .catch에서 reject하여 
+         - dispatch한 컴포넌트로 error 전달
 
 
 
@@ -43,10 +48,16 @@
   - 별점 구현 
     ![paa](img/star.png)
 
+### LoginView Modal Issue
+  - .catch , reject를 통해 해결
+  - ![paa](img/modal.png)
+  - ![paa](img/code.png)
   
-## Community(ArticleView) Layout, Tone 구성 
+### Community(ArticleView) Layout, Tone 구성 
   - 커뮤니티 레이아웃 구성 
-   ![ps](img/community.png)
+   ![ps](img/art1.png)
+  - Article Detail 레이아웃 구성
+   ![ps](img/artd.png)
 
     
   
