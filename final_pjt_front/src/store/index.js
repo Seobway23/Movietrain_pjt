@@ -35,6 +35,9 @@ export default new Vuex.Store({
     movie : null,
     video : null,
 
+    //community_id
+    community_id: null,
+
   },
   getters: {
     isLogin(state){

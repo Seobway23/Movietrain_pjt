@@ -19,7 +19,7 @@ class Movie(models.Model):
 
 
 class Score(models.Model):
-    # user = models.IntegerField(settings.AUTH_USER_MODELS, on_delete=models.CASCADE)
+    user = models.IntegerField(settings.AUTH_USER_MODELS, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     score = models.IntegerField()
     # score = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])

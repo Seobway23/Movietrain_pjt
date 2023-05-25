@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1> PROFILE PAGE</h1>
-
+    <h1> OTHER PROFILE PAGE</h1>
     <p>profile data: {{profile}}</p>
     <p>username: {{profile.username}}</p>
     <p>followers: {{followers}}</p>

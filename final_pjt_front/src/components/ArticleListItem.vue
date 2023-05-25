@@ -1,10 +1,12 @@
 <template>
   <div>
-    <h5>{{ post.id }}</h5>
-    <p>{{ post.title }}</p>
+    <h5>No.{{ post.id }}</h5>
+    <h5>user: {{post.user}}</h5>
+    <p>title: {{ post.title }}</p>
+
     <router-link :to="{
       name: 'DetailView',
-      params: {id: post.id }}">
+      params: {id: post.id}}" @click.prevent="get">
       [DETAIL]
     </router-link>
     <hr>
@@ -16,6 +18,11 @@ export default {
   name: 'ArticleListItem',
   props: {
     post: Object,
+  },
+
+  methods:{
+    get() {
+      console.log('post:',this.post)}
   }
 }
 </script>

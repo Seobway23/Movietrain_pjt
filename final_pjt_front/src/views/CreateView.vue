@@ -8,6 +8,9 @@
       <textarea id="content" cols="30" rows="10" v-model="content"></textarea><br>
       <input type="submit" id=submit>
     </form>
+
+    <h2>뒤로가기 버튼 추가해야함 </h2>
+    
   </div>
 </template>
 
@@ -28,7 +31,6 @@ export default {
     createPost(){
       const title= this.title
       const content = this.content
-      const user = this.$store.state.id
 
       if (!title) {
         alert('제목을 입력해주세요')
@@ -37,13 +39,14 @@ export default {
         alert('내용을 입력해주세요')
        return
       }
-      axios({
-        method: 'post',
-        url: `${API_URL}/community/`,
-        data: {user, title, content},
-      })
+      axios.post(`${API_URL}/community/`, {title: title, content: content})
+      // axios({
+      //   method: 'post',
+      //   url: `${API_URL}/community/`,
+      //   data: {title, content},
+      // })
       .then((res) =>{ 
-        console.log(res)
+        console.log('res:',res)
         this.$router.push({name:'PostView'})
       })
       .catch((err)=>{

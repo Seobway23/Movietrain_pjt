@@ -9,6 +9,7 @@ import DetailView from '../views/DetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import SearchView from '../views/SearchView.vue'
 import MovieDetail from '../views/MovieDetail.vue'
+import OtherProfileView from '../views/OtherProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -58,14 +59,12 @@ const routes = [
     name: 'MovieDetail',
     component: MovieDetail
   },
-  // {
-  //   path: '/article',
-  //   name: 'article',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  // }
+
+  {
+    path: '',
+    name: 'OtherProfileView',
+    component: OtherProfileView
+  },
 ]
 
 const router = new VueRouter({

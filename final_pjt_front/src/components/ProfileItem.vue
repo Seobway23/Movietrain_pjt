@@ -34,11 +34,12 @@ export default {
             post_likes : null,
             // follow: null,
             follower_flag : null,
+            username : null,
         }
     },
     created(){
       this.getProfile()
-      this.following()
+      // this.follow()
     },
     computed: {
       isLogin() {
@@ -54,7 +55,7 @@ export default {
         url: `${API_URL}/user/profile/${username}/`,
       })
       .then((res)=>{
-        console.log(res)
+        // console.log(res)
         this.profile = res.data
         this.followers = res.data.followers.length
         this.followings = res.data.followings.length
@@ -64,11 +65,11 @@ export default {
       .catch((err) => console.log(err))
       },
 
-      follow() {
-        const username = localStorage.getItem('username')
-        console.log(username)
-        // yourname은 어떻게 할꺼?
-      }
+      // follow() {
+      //   const username = localStorage.getItem('username')
+      //   console.log(username) // 내 아이디
+      //   // yourname은 어떻게 할꺼?
+      // }
     },
 
 }
