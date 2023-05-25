@@ -39,7 +39,17 @@ export default {
         alert('내용을 입력해주세요')
        return
       }
-      axios.post(`${API_URL}/community/`, {title: title, content: content})
+      const token = this.$store.state.token
+      const data = {
+        title: title,
+        content: content,
+      }
+      const headers = {
+        Authorization : `Token ${token}`
+      }
+      axios.post(
+        `${API_URL}/community/`, data, {headers})
+    
       // axios({
       //   method: 'post',
       //   url: `${API_URL}/community/`,
@@ -51,6 +61,7 @@ export default {
       })
       .catch((err)=>{
         console.log(err)
+        // console.log(err.response.data)
       })
     }
   }

@@ -45,17 +45,16 @@ def user_profile(request):
 
 
 @api_view(['GET'])
-def get_user_profile(request, username):
+def get_user_profile(request, userid):
     print('#####################')
-    print('username:',username)
+    print('username:',userid)
     print('request:',request.user)
-
     print('#####################')
-    username = User.objects.get(username=username)
+    USER = User.objects.get(pk=userid)
     # followings = User.followings.get(sername=username)
 
     if request.method =='GET':
-        serializer  = UserProfileSerializer(username)
+        serializer  = UserProfileSerializer(USER)
         return Response(serializer.data)
 
 # request.user => user의 instance를 말하는거고요
@@ -78,13 +77,13 @@ def get_user_profile(request, username):
 
 @api_view(['POST'])
 def follow(request, username, yourname):
-    you = User.objects.get(username=yourname)
-    me = User.objects.get(username=username)
+    you = User.objects.get(pk=yourname)
+    me = User.objects.get(pk=username)
 
     if me in you.followers.all():
         you.followers.remove(me)
-        return Response("언팔로우 했습니다.", status=status.HTTP_200_OK)
+        return Response({'flag' : 0 }, status=status.HTTP_200_OK)
     
     else:
         you.followers.add(me)
-        return Response("팔로우 했습니다.", status=status.HTTP_200_OK)
+        return Response({'flag' : 1}, status=status.HTTP_200_OK)

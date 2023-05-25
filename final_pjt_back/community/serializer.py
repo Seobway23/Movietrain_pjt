@@ -3,7 +3,7 @@ from .models import Post, Comment, Reply
 class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id','user','title','content')
+        fields = ('id','user','title','content','cretaed_at',)
         read_only_fields = ('user',)
 
 class CommentSerializer(serializers.ModelSerializer):

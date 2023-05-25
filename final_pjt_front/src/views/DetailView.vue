@@ -3,11 +3,9 @@
     <h1>Detail</h1>
     <p>글 번호 : {{post?.id}}</p>
     <p> 작성자 : 
-    <router-link :to="{name: 'OtherProfileView', params: {user: post.user}} ">
+    <router-link :to="{name: 'ProfileView', params: {id: post.user}} ">
       {{post?.user}}
     </router-link>
-    </p>
-    
     <p>제목 : {{post?.title}}</p>
     <p>내용 : {{post?.content}}</p>
     <p>댓글 갯수 : {{post?.comment_count}}</p>

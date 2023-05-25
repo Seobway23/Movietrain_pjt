@@ -9,7 +9,6 @@ import DetailView from '../views/DetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import SearchView from '../views/SearchView.vue'
 import MovieDetail from '../views/MovieDetail.vue'
-import OtherProfileView from '../views/OtherProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -45,7 +44,7 @@ const routes = [
     component: DetailView
   },
   {
-    path: '/profile',
+    path: '/profile/:id',
     name: 'ProfileView',
     component: ProfileView
   },
@@ -58,12 +57,6 @@ const routes = [
     path: '/MovieDetail',
     name: 'MovieDetail',
     component: MovieDetail
-  },
-
-  {
-    path: '',
-    name: 'OtherProfileView',
-    component: OtherProfileView
   },
 ]
 

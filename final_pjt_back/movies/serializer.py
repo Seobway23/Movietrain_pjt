@@ -21,8 +21,8 @@ class GenreListSerializer(serializers.ModelSerializer):
 class MovieScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
-        fields='__all__'
-
+        fields=('user', 'movie', 'comment','score',)
+        read_only_fields=('user','movie',)
 
     # def create(self, validated_data):
     #     # Get the star rating from the validated_data

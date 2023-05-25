@@ -35,7 +35,7 @@ def post_list(request):
         if serializer.is_valid(raise_exception=True):
             
             serializer.save(user=request.user)
-            print(serializer)
+            # print(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

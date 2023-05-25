@@ -9,7 +9,7 @@
         </li>
         <!-- :to="{name: SearchView} -->
        <router-link :to="{name: 'SearchView'}">
-          <form @submit.prevent="searchMovie">
+          <form @enter.prevent="searchMovie">
             <input type="text" id="title" v-model.trim="title">
           </form>
         </router-link>
@@ -21,7 +21,7 @@
         </li>
         <li v-if="$store.state.username">
           <a @click="logout">Logout</a> |
-          <router-link :to="{ name: 'ProfileView' }">Profile</router-link> 
+          <router-link :to="{ name: 'ProfileView', params: {id : $store.state.id} }">Profile</router-link> 
         </li>
         </div>
       </ul>

@@ -45,11 +45,11 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    // 토큰 방식 로그인 
-    SAVE_TOKEN(state, token) {
-      state.token = token
-      router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
-    },
+    // // 토큰 방식 로그인 
+    // SAVE_TOKEN(state, token) {
+    //   state.token = token
+    //   router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
+    // },
     
     SAVE_OTHERS(state, { token, username, id }) {
       state.token = token
@@ -78,7 +78,8 @@ export default new Vuex.Store({
       this.state.searchmovies = []
       this.state.searchmovies = searchmovies
       console.log('stae.serar:', this.state.searchmovies)
-      // router.push({name : 'SearchView'}) -> 오류
+      router.push({name : 'SearchView'})
+      
     },
 
     // LOGOUT 구현
@@ -156,6 +157,7 @@ export default new Vuex.Store({
           }
         })
           .then((response) => {
+            console.log(this)
             console.log('response:', response)
             const username = response.data.username
             const id = response.data.id
