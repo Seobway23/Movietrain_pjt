@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Post, Comment, Reply
+from accounts.models import User
 from .serializer import PostListSerializer, PostDetailSerializer, CommentSerializer, ReplySerializer
 from rest_framework.response import Response
 
@@ -24,9 +25,17 @@ def post_list(request):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = PostDetailSerializer(data=request.data)
+        serializer = PostListSerializer(data=request.data)
+        print('#################')
+        print(request.user)
+        # USER = User.objects.get(username=request.user)
+        # print(USER.id)
+        print('#################')
+        
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            
+            serializer.save(user=request.user)
+            # print(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

@@ -3,7 +3,8 @@ from .models import Post, Comment, Reply
 class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id','title','content')
+        fields = ('id','user','title','content','cretaed_at',)
+        read_only_fields = ('user',)
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,4 +23,4 @@ class PostDetailSerializer(serializers.ModelSerializer):
     reply_set = ReplySerializer(many=True, read_only=True)
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('user','id','title', 'content','created_at','updated_at','comment_set', 'comment_count', 'reply_set')

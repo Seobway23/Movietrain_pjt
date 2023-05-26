@@ -19,6 +19,7 @@ export default new Vuex.Store({
 
     // username
     username : null,
+    id : null,
 
     // 게시글
     posts: [],
@@ -28,8 +29,15 @@ export default new Vuex.Store({
 
     // searched movies
     title : null,
-
     searchmovies: [],
+
+    // movie detail
+    movie : null,
+    video : null,
+
+    //community_id
+    community_id: null,
+
   },
   getters: {
     isLogin(state){
@@ -37,16 +45,18 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    // 토큰 방식 로그인 
-    SAVE_TOKEN(state, token) {
-      state.token = token
-      router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
-    },
+    // // 토큰 방식 로그인 
+    // SAVE_TOKEN(state, token) {
+    //   state.token = token
+    //   router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
+    // },
     
-    SAVE_OTHERS(state, { token, username }) {
+    SAVE_OTHERS(state, { token, username, id }) {
       state.token = token
       state.username = username
+      state.id = id
       localStorage.setItem('username', username)
+      localStorage.setItem('id', id)
       router.push({name : 'Homeview'}) // store/index.js $router 접근 불가 -> import를 해야함
     },
     GET_PROFILES(state){
@@ -65,12 +75,24 @@ export default new Vuex.Store({
 
     // TMDB search데이터 수집
     GET_SEARCH(state, searchmovies){
-      state.searchmovies = []
-      state.searchmovies = searchmovies
-      // router.push({name : 'SearchView'}) -> 오류
+      this.state.searchmovies = []
+      this.state.searchmovies = searchmovies
+      console.log('stae.serar:', this.state.searchmovies)
+      router.push({name : 'SearchView'})
+      
     },
 
+    // LOGOUT 구현
+    LOGOUT(state) {
+      state.token = ''
+      state.username = ''
+      router.push({name:"HomeView"})
+      // Remove token and username from localStorage
+      localStorage.removeItem('token')
+      // localStorage.removeItem('username');
+    }
   },
+  
   actions: {
     // 회원 가입 구현
     signUp(context, payload) {
@@ -86,9 +108,25 @@ export default new Vuex.Store({
         }
       })
         .then((res) => {
+          const token = res.data.key
           // console.log(res)
           // context.commit('SIGN_UP', res.data.key)
-          context.commit('SAVE_TOKEN', res.data.key)
+          axios({
+            method: 'get',
+            url: `${API_URL}/user/userid/`,  // URL to retrieve user ID based on token (customize as needed)
+            headers: {
+              Authorization: `Token ${token}`
+            }
+          })
+            .then((response) => {
+              console.log('response:', response)
+              const username = response.data.username
+              const id = response.data.id
+              context.commit("SAVE_OTHERS", { token, username, id })
+            })
+            .catch((error) => {
+              console.log(error)
+            })
         })
         .catch((err) => {
         console.log(err)
@@ -110,7 +148,7 @@ export default new Vuex.Store({
       })
       .then((res)=> {
         const token = res.data.key
-        console.log(token)
+        // console.log(token)
         axios({
           method: 'get',
           url: `${API_URL}/user/userid/`,  // URL to retrieve user ID based on token (customize as needed)
@@ -119,9 +157,11 @@ export default new Vuex.Store({
           }
         })
           .then((response) => {
+            console.log(this)
             console.log('response:', response)
             const username = response.data.username
-            context.commit("SAVE_OTHERS", { token, username })
+            const id = response.data.id
+            context.commit("SAVE_OTHERS", { token, username, id })
           })
           .catch((error) => {
             console.log(error)
@@ -210,10 +250,9 @@ export default new Vuex.Store({
         console.error(error)
       })
     },
-
-
-
   },
+
+
   modules: {
   }
 })

@@ -4,6 +4,7 @@ from .models import User
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_list_or_404
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -23,8 +24,11 @@ from django.http import JsonResponse
     
 
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def user_profile(request):
-    username = User.objects.get(username=request.user.username)
+    username = User.objects.get(username=request.user.
+    username)
+    # username = get_list_or_404(User, username=username)
     if request.method =='GET':
         serializer  = UserProfileSerializer(username)
         return Response(serializer.data)
@@ -41,10 +45,16 @@ def user_profile(request):
 
 
 @api_view(['GET'])
-def get_user_profile(request, username):
-    username = User.objects.get(username=username)
+def get_user_profile(request, userid):
+    print('#####################')
+    print('username:',userid)
+    print('request:',request.user)
+    print('#####################')
+    USER = User.objects.get(pk=userid)
+    # followings = User.followings.get(sername=username)
+
     if request.method =='GET':
-        serializer  = UserProfileSerializer(username)
+        serializer  = UserProfileSerializer(USER)
         return Response(serializer.data)
 
 # request.user => user의 instance를 말하는거고요
@@ -64,3 +74,16 @@ def get_user_profile(request, username):
 #     profile/:username => django에서 username을 변수로 사용 가능
 
 # django는 request를 받아다가 response를 보내죠
+
+@api_view(['POST'])
+def follow(request, username, yourname):
+    you = User.objects.get(pk=yourname)
+    me = User.objects.get(pk=username)
+
+    if me in you.followers.all():
+        you.followers.remove(me)
+        return Response({'flag' : 0 }, status=status.HTTP_200_OK)
+    
+    else:
+        you.followers.add(me)
+        return Response({'flag' : 1}, status=status.HTTP_200_OK)

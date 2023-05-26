@@ -1,6 +1,8 @@
 <template>
   <div>
-    <ProfileItem/>
+    <ProfileItem
+    :id="id"
+    />
   </div>
 </template>
 
@@ -12,6 +14,21 @@ export default {
   components: {
     ProfileItem,
   },
+  computed: {
+    id() {
+      return this.$route.params.id
+    }
+  }
+  // created(){
+  //   this.getid()
+    
+  // },
+  // methods: {
+  //   getid() {
+  //     const profileId = this.$route.params.id
+  //     console.log('profileID:',profileId)
+  //   }
+  // }
 
 }
 </script>

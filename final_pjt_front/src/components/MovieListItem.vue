@@ -2,11 +2,12 @@
   <div>
     <p>{{movie.poster_path}}</p>
     <p>{{movie.title}}</p>
-    <!-- <router-link :to="{
-      name: 'MovieView',
+    <p>{{movie.id}}</p>
+    <router-link :to="{
+      name: 'MovieDetail',
       params : {id: movie.id}}">
       [DETAIL]
-    </router-link> -->
+    </router-link>
     <hr>
   </div>
 </template>

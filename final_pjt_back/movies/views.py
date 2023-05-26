@@ -31,7 +31,7 @@ def score_create(request, movie_pk):
     if request.method=='POST':
         serializer = MovieScoreSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(movie=movie)
+            serializer.save(movie=movie,user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
