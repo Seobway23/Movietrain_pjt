@@ -44,7 +44,7 @@
 # ERD (BE) & Components (FE)
 
 ## ERD 
-![img](img/ERD.png)
+![img](img/ERD.PNG)
 
 ## Components
 ![img](img/Comp.png)
@@ -63,7 +63,7 @@ Display 크기에 따른 반응형 화면 구현
 ![img](img/NavBar.png)
 <br/><br/><br/>
 ## Search 기능 구현
-![img](img/search.png)
+![img](img/Search.png)
 <br/><br/><br/>
 ## Movie Detail Page
 ![img](img/MovieDetailView.png)
